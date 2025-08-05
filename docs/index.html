@@ -3,15 +3,20 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Hsu Myat Wai Maung | Modern Portfolio 2025</title>
+    <title>Hsu Myat Wai Maung | Modern Portfolio</title>
+    
+    <!-- Original Fonts -->
     <link rel="preconnect" href="https://fonts.googleapis.com">
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;700&display=swap" rel="stylesheet">
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;700&family=Poppins:wght@600;700&display=swap" rel="stylesheet">
     
-    <script type="module" src="https://unpkg.com/@dotlottie/player-component@2.7.12/dist/dotlottie-player.mjs"></script>
-    <script type="module" src="https://unpkg.com/ionicons@7.1.0/dist/ionicons/ionicons.esm.js"></script>
-    <script nomodule src="https://unpkg.com/ionicons@7.1.0/dist/ionicons/ionicons.js"></script>
+    <!-- Terminal Font -->
+    <link href="https://fonts.googleapis.com/css2?family=Press+Start+2P&display=swap" rel="stylesheet">
 
+    <!-- Ionicons for icons -->
+    <script type="module" src="https://unpkg.com/ionicons@7.1.0/dist/ionicons/ionicons.esm.js"></script>
+    <script nomodule src="https://unpkg.com/@ionic/pwa-elements@3.2.2/dist/ionic.js"></script>
+    
     <style>
         :root {
             --header-height: 4rem;
@@ -31,17 +36,37 @@
             --card-bg-color: #161b22;
             --border-color: #30363d;
             --header-bg: rgba(13, 17, 23, 0.7);
+
+            /* Terminal Colors (Dark) */
+            --terminal-bg: #000;
+            --terminal-title: var(--text-color);
+            --terminal-prompt-user: #8b5cf6;
+            --terminal-prompt-dir: #3b82f6;
+            --terminal-prompt-dollar: var(--text-color);
+            --terminal-output-text: #10b981;
+            --terminal-link: #8b5cf6;
+            --terminal-error: #ef4444;
         }
 
         html[data-theme='light'] {
-            --bg-color: #f6f8fa;
+            --bg-color: #f0f2f5;
             --text-color: #48515a;
             --secondary-text-color: #6e7781;
             --title-color: #24292f;
             --primary-color: var(--primary-color-light);
             --card-bg-color: var(--white-color);
             --border-color: #d0d7de;
-            --header-bg: rgba(246, 248, 250, 0.7);
+            --header-bg: rgba(240, 242, 245, 0.7);
+
+            /* Terminal Colors (Light) */
+            --terminal-bg: #e2e8f0;
+            --terminal-title: var(--title-color);
+            --terminal-prompt-user: #6d28d9;
+            --terminal-prompt-dir: #2563eb;
+            --terminal-prompt-dollar: var(--text-color);
+            --terminal-output-text: #047857;
+            --terminal-link: #6d28d9;
+            --terminal-error: #dc2626;
         }
 
         *, *::before, *::after {
@@ -85,16 +110,90 @@
             transition: background-color 0.3s ease, border-color 0.3s ease;
         }
         
-        .main-nav { display: flex; justify-content: space-between; align-items: center; height: var(--header-height); }
-        .nav-logo { font-weight: 700; font-size: 1.5rem; color: var(--title-color); text-decoration: none; }
-        .nav-menu { display: flex; align-items: center; gap: 2rem; }
-        .nav-links { display: flex; list-style: none; gap: 2rem; }
-        .nav-links a { color: var(--text-color); text-decoration: none; font-weight: 500; transition: color 0.3s ease; }
-        .nav-links a:hover, .nav-links a.active-link { color: var(--primary-color); }
-        .theme-switch { display: flex; align-items: center; cursor: pointer; }
-        .theme-switch ion-icon { font-size: 1.5rem; color: var(--text-color); }
+        .main-nav { 
+            display: flex; 
+            justify-content: space-between; 
+            align-items: center; 
+            height: var(--header-height); 
+        }
+        .nav-logo { 
+            font-family: 'Poppins', sans-serif;
+            font-weight: 700; 
+            font-size: 1.5rem; 
+            color: var(--primary-color); 
+            text-decoration: none; 
+            transition: color 0.3s ease;
+        }
+        .nav-logo:hover {
+            opacity: 0.8;
+        }
+        .nav-menu { 
+            display: flex; 
+            align-items: center; 
+            gap: 2rem; 
+        }
+        .nav-links { 
+            display: flex; 
+            list-style: none; 
+            gap: 2rem; 
+        }
+        
+        /* New styles for the CSS liquid underline */
+        .nav-links a { 
+            color: var(--text-color); 
+            text-decoration: none; 
+            font-weight: 500; 
+            transition: color 0.3s ease; 
+            position: relative;
+            padding-bottom: 0.2rem;
+            display: block; /* Make sure the link is a block to contain the pseudo-element */
+        }
+        .nav-links a::after {
+            content: '';
+            position: absolute;
+            bottom: 0;
+            left: 0;
+            width: 100%;
+            height: 3px;
+            background: linear-gradient(90deg, var(--primary-color) 0%, transparent 50%, var(--primary-color) 100%);
+            background-size: 200% 100%;
+            border-radius: 9999px;
+            transform: scaleX(0);
+            transform-origin: center;
+            transition: transform 0.3s ease-in-out;
+        }
+        .nav-links a:hover::after, .nav-links a.active-link::after {
+            transform: scaleX(1);
+            animation: moveGradient 5s infinite linear;
+        }
+        .nav-links a:hover, .nav-links a.active-link {
+            color: var(--primary-color);
+        }
 
-        /* Hero Section - Lottie Background */
+        @keyframes moveGradient {
+            0% {
+                background-position: 0% 50%;
+            }
+            100% {
+                background-position: -200% 50%;
+            }
+        }
+        
+        .theme-switch { 
+            display: flex; 
+            align-items: center; 
+            cursor: pointer; 
+        }
+        .theme-switch ion-icon { 
+            font-size: 1.5rem; 
+            color: var(--text-color); 
+            transition: color 0.3s ease; 
+        }
+        .theme-switch:hover ion-icon {
+            color: var(--primary-color);
+        }
+
+        /* Hero Section - Video Background */
         #hero {
             position: relative;
             display: flex;
@@ -102,87 +201,335 @@
             min-height: 100vh;
             padding-top: var(--header-height);
             overflow: hidden;
+            background-color: var(--bg-color); /* Fallback */
         }
-
-        .hero-lottie-bg {
+        .hero-video-bg {
             position: absolute;
             top: 50%;
             left: 50%;
-            width: 120%;
-            height: 120%;
-            min-width: 1200px;
-            min-height: 1200px;
+            min-width: 100%;
+            min-height: 100%;
+            width: auto;
+            height: auto;
             transform: translate(-50%, -50%);
             z-index: -1;
             opacity: 0.15;
+            object-fit: cover;
+            transition: opacity 0.5s ease-in-out;
         }
 
-        .hero-content { text-align: left; }
-        .hero-content h1 { font-size: 4rem; font-weight: 700; color: var(--title-color); line-height: 1.2; margin-bottom: 1.5rem; }
-        .hero-content h1 span { color: var(--primary-color); }
-        .hero-content p { font-size: 1.25rem; max-width: 600px; margin-bottom: 2rem; color: var(--secondary-text-color); }
-        .hero-button { display: inline-block; background-color: var(--primary-color); color: var(--white-color); padding: 1rem 2rem; border-radius: 8px; text-decoration: none; font-weight: 700; font-size: 1rem; transition: transform 0.3s ease, box-shadow 0.3s ease; }
-        .hero-button:hover { transform: translateY(-3px); box-shadow: 0 10px 20px rgba(59, 130, 246, 0.25); }
+        .hero-content { 
+            text-align: left;
+            animation: fadeInContent 1s ease-in-out;
+        }
+        .hero-content h1 { 
+            font-size: clamp(2.5rem, 6vw, 4rem); 
+            font-weight: 700; 
+            color: var(--title-color); 
+            line-height: 1.2; 
+            margin-bottom: 1.5rem; 
+        }
+        .hero-content h1 span { 
+            color: var(--primary-color); 
+        }
+        .hero-content p { 
+            font-size: 1.25rem; 
+            max-width: 600px; 
+            margin-bottom: 2rem; 
+            color: var(--secondary-text-color); 
+        }
+        .hero-button { 
+            display: inline-block; 
+            background-color: var(--primary-color); 
+            color: var(--white-color); 
+            padding: 1rem 2.5rem; 
+            border-radius: 99px; 
+            text-decoration: none; 
+            font-weight: 700; 
+            font-size: 1rem; 
+            transition: transform 0.3s ease, box-shadow 0.3s ease; 
+            box-shadow: 0 4px 15px rgba(59, 130, 246, 0.2);
+        }
+        .hero-button:hover { 
+            transform: translateY(-5px) scale(1.02); 
+            box-shadow: 0 15px 30px rgba(59, 130, 246, 0.4); 
+        }
 
         /* General Section Styling */
-        section { padding: 6rem 0; }
-        .section-title { text-align: center; font-size: 2.5rem; margin-bottom: 3rem; color: var(--title-color); }
+        section { 
+            padding: 6rem 0; 
+            opacity: 0;
+            transform: translateY(20px);
+            transition: opacity 0.6s ease-out, transform 0.6s ease-out;
+        }
+        section.is-visible {
+            opacity: 1;
+            transform: translateY(0);
+        }
+        .section-title { 
+            text-align: center; 
+            font-size: clamp(2rem, 5vw, 2.5rem); 
+            margin-bottom: 3rem; 
+            color: var(--title-color); 
+        }
 
-        /* Modern Project Cards */
-        .projects-grid { display: grid; grid-template-columns: repeat(auto-fit, minmax(320px, 1fr)); gap: 2rem; }
-        .project-card { background: var(--card-bg-color); border: 1px solid var(--border-color); box-shadow: 0 4px 6px rgba(0,0,0,0.1); border-radius: 15px; overflow: hidden; transition: all 0.4s ease; display: flex; flex-direction: column; }
-        .project-card:hover { transform: translateY(-10px); box-shadow: 0 15px 30px rgba(0,0,0,0.1); }
-        .project-image { height: 200px; background-size: cover; background-position: center; transition: transform 0.4s ease; }
-        .project-card:hover .project-image { transform: scale(1.05); }
-        .project-content { padding: 1.5rem; flex-grow: 1; display: flex; flex-direction: column; }
-        .project-title { color: var(--title-color); font-size: 1.5rem; margin-bottom: 0.5rem; }
-        .project-description { color: var(--secondary-text-color); margin-bottom: 1rem; flex-grow: 1; }
-        .project-tags { display: flex; flex-wrap: wrap; gap: 0.5rem; margin-bottom: 1.5rem; }
-        .project-tags span { background: var(--border-color); padding: 0.3rem 0.7rem; border-radius: 99px; font-size: 0.8rem; font-weight: 500; }
-        .project-link { color: var(--primary-color); text-decoration: none; font-weight: 500; align-self: flex-start; display: flex; align-items: center; gap: 0.5rem; }
-        .project-link ion-icon { transition: transform 0.3s ease; }
-        .project-link:hover ion-icon { transform: translateX(5px); }
-        
-        /* Modern "About Me" Section */
+        /* Terminal Section */
+        #terminal-section {
+            background-color: var(--card-bg-color);
+            border-top: 1px solid var(--border-color);
+            border-bottom: 1px solid var(--border-color);
+            padding: 4rem 0;
+        }
+        .terminal-container {
+            max-width: 900px;
+            margin: auto;
+            border-radius: 1rem;
+            background-color: var(--terminal-bg);
+            border: 1px solid var(--border-color);
+            box-shadow: 0 10px 40px rgba(0,0,0,0.2);
+            font-family: 'Press Start 2P', monospace;
+            padding: 1.5rem;
+            min-height: 500px;
+            display: flex;
+            flex-direction: column;
+            transition: background-color 0.3s ease;
+        }
+        .terminal-header {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            padding-bottom: 0.75rem;
+            border-bottom: 1px solid var(--border-color);
+            margin-bottom: 1.5rem;
+            color: var(--terminal-title);
+            font-size: 0.8rem;
+            transition: color 0.3s ease;
+        }
+        .terminal-dots {
+            display: flex;
+            gap: 0.5rem;
+        }
+        .terminal-dots span {
+            width: 0.75rem;
+            height: 0.75rem;
+            border-radius: 9999px;
+        }
+        .terminal-dots span:nth-child(1) { background-color: #ef4444; }
+        .terminal-dots span:nth-child(2) { background-color: #f59e0b; }
+        .terminal-dots span:nth-child(3) { background-color: #22c55e; }
+
+        .terminal-output {
+            flex-grow: 1;
+            overflow-y: auto;
+            color: var(--terminal-output-text);
+            line-height: 1.6;
+            font-size: 0.8rem;
+            padding-right: 0.5rem;
+            -ms-overflow-style: none; /* IE and Edge */
+            scrollbar-width: none; /* Firefox */
+            transition: color 0.3s ease;
+        }
+        .terminal-output::-webkit-scrollbar {
+            display: none; /* Chrome, Safari, Opera */
+        }
+        .terminal-output p {
+            margin-bottom: 0.75rem;
+        }
+        .terminal-output ul {
+            list-style: none;
+            padding-left: 1rem;
+        }
+        .terminal-output li {
+            margin-bottom: 0.5rem;
+        }
+        .terminal-output .prompt-line {
+            display: flex;
+            align-items: center;
+            color: var(--terminal-prompt-dollar);
+            margin-bottom: 0.75rem;
+        }
+        .terminal-output .prompt-line .user { color: var(--terminal-prompt-user); }
+        .terminal-output .prompt-line .dir { color: var(--terminal-prompt-dir); }
+        .terminal-output .prompt-line .dollar { color: var(--terminal-prompt-dollar); }
+        .terminal-output .prompt-line .input-text { color: var(--text-color); }
+
+        .terminal-input-line {
+            display: flex;
+            align-items: center;
+            margin-top: 1.5rem;
+            color: var(--terminal-prompt-dollar);
+            transition: color 0.3s ease;
+        }
+        .terminal-input-line .user { color: var(--terminal-prompt-user); }
+        .terminal-input-line .dir { color: var(--terminal-prompt-dir); }
+        .terminal-input-line .dollar { color: var(--terminal-prompt-dollar); }
+        .terminal-input {
+            background: none;
+            border: none;
+            outline: none;
+            font-family: 'Press Start 2P', monospace;
+            font-size: 0.8rem;
+            color: var(--terminal-output-text);
+            flex-grow: 1;
+            margin-left: 0.5rem;
+            transition: color 0.3s ease;
+        }
+
+        /* About Section */
         #about .container {
             display: grid;
-            grid-template-columns: 1fr 1fr;
+            grid-template-columns: 1fr 1.2fr;
             align-items: center;
             gap: 4rem;
         }
-        .about-image-wrapper { position: relative; }
-        .about-image { width: 300px; height: 300px; border-radius: 50%; object-fit: cover; border: 5px solid var(--border-color); }
-        .about-content h2 { font-size: 2rem; color: var(--title-color); margin-bottom: 1rem; }
-        .about-content .about-intro { font-size: 1.1rem; color: var(--secondary-text-color); margin-bottom: 2rem; }
+        .about-image-wrapper { 
+            position: relative; 
+            justify-self: center;
+        }
+        .about-image { 
+            width: 300px; 
+            height: 300px; 
+            border-radius: 50%; 
+            object-fit: cover; 
+            border: 5px solid var(--border-color); 
+            box-shadow: 0 10px 30px rgba(0,0,0,0.1);
+        }
+        .about-content h2 { 
+            font-size: 2rem; 
+            color: var(--title-color); 
+            margin-bottom: 1rem; 
+        }
+        .about-content .about-intro { 
+            font-size: 1.1rem; 
+            color: var(--secondary-text-color); 
+            margin-bottom: 2rem; 
+        }
         
-        .skills-title { font-size: 1.25rem; color: var(--title-color); margin-bottom: 1rem; }
-        .skills-list { list-style: none; padding: 0; }
-        .skill-item { margin-bottom: 1rem; }
-        .skill-name { display: block; margin-bottom: 0.5rem; font-weight: 500; }
-        .skill-bar { height: 8px; background-color: var(--border-color); border-radius: 4px; overflow: hidden; }
-        .skill-level { height: 100%; background-color: var(--primary-color); width: 0; transition: width 1s ease-in-out; }
+        /* New styles for the modern skills section */
+        .tech-stack-section {
+            margin-top: 2rem;
+        }
+        .tech-stack-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
+            gap: 1rem;
+            margin-top: 1rem;
+        }
+        .tech-item {
+            display: flex;
+            align-items: center;
+            gap: 0.75rem;
+            padding: 1rem;
+            background-color: var(--card-bg-color);
+            border: 1px solid var(--border-color);
+            border-radius: 0.5rem;
+            transition: transform 0.3s ease, box-shadow 0.3s ease;
+            font-weight: 500;
+        }
+        .tech-item:hover {
+            transform: translateY(-3px);
+            box-shadow: 0 5px 15px rgba(0,0,0,0.1);
+        }
+        .tech-item ion-icon {
+            font-size: 1.5rem;
+            color: var(--primary-color);
+        }
 
         /* Footer */
-        .footer { background-color: var(--card-bg-color); padding: 3rem 0; text-align: center; border-top: 1px solid var(--border-color); transition: background-color 0.3s ease, border-color 0.3s ease; }
-        .social-icons { display: flex; justify-content: center; gap: 1.5rem; margin-bottom: 1.5rem; list-style: none; }
-        .social-icons a { color: var(--text-color); font-size: 1.8rem; transition: color 0.3s ease, transform 0.3s ease; }
-        .social-icons a:hover { color: var(--primary-color); transform: translateY(-3px); }
-        .footer-menu { display: flex; justify-content: center; gap: 1.5rem; margin-bottom: 1.5rem; list-style: none; }
-        .footer-menu a { color: var(--text-color); text-decoration: none; transition: color 0.3s ease; }
-        .footer-menu a:hover { color: var(--primary-color); }
-        .footer p, #time-container { font-size: 0.9rem; opacity: 0.7; }
-        #time-container { margin-top: 1rem; }
+        .footer { 
+            background-color: var(--card-bg-color); 
+            padding: 3rem 0; 
+            text-align: center; 
+            border-top: 1px solid var(--border-color); 
+            transition: background-color 0.3s ease, border-color 0.3s ease; 
+        }
+        .social-icons { 
+            display: flex; 
+            justify-content: center; 
+            gap: 1.5rem; 
+            margin-bottom: 1.5rem; 
+            list-style: none; 
+        }
+        .social-icons a { 
+            color: var(--text-color); 
+            font-size: 1.8rem; 
+            transition: color 0.3s ease, transform 0.3s ease; 
+        }
+        .social-icons a:hover { 
+            color: var(--primary-color); 
+            transform: translateY(-5px); 
+        }
+        .footer-menu { 
+            display: flex; 
+            justify-content: center; 
+            gap: 1.5rem; 
+            margin-bottom: 1.5rem; 
+            list-style: none; 
+        }
+        .footer-menu a { 
+            color: var(--text-color); 
+            text-decoration: none; 
+            transition: color 0.3s ease; 
+        }
+        .footer-menu a:hover { 
+            color: var(--primary-color); 
+        }
+        .footer-text { 
+            font-size: 0.9rem; 
+            opacity: 0.7; 
+            margin-bottom: 1rem;
+        }
+        #time-container { 
+            font-size: 0.9rem; 
+            opacity: 0.7; 
+            margin-top: 1rem; 
+        }
+        .contact-cta {
+            margin-bottom: 2rem;
+            font-size: 1.2rem;
+            font-weight: 500;
+            color: var(--title-color);
+        }
 
         /* Responsive Design */
         @media (max-width: 992px) {
-            #about .container { grid-template-columns: 1fr; }
-            .about-image-wrapper { display: flex; justify-content: center; margin-bottom: 2rem; }
+            #about .container { 
+                grid-template-columns: 1fr;
+                text-align: center;
+            }
+            .about-image-wrapper { 
+                display: flex; 
+                justify-content: center; 
+                margin-bottom: 2rem; 
+                order: -1;
+            }
+            .about-content h2 {
+                text-align: center !important;
+            }
         }
         @media (max-width: 768px) {
-            .nav-links { display: none; }
-            .hero-content h1 { font-size: 3rem; }
+            .nav-links { 
+                display: none; 
+            }
+            .hero-content h1 { 
+                font-size: clamp(2rem, 8vw, 3rem); 
+            }
+            .container {
+                padding: 0 1rem;
+            }
         }
 
+        /* Keyframes */
+        @keyframes fadeInContent {
+            from {
+                opacity: 0;
+                transform: translateY(20px);
+            }
+            to {
+                opacity: 1;
+                transform: translateY(0);
+            }
+        }
     </style>
 </head>
 <body>
@@ -191,10 +538,18 @@
             <a href="#" class="nav-logo">Hsu Myat</a>
             <div class="nav-menu">
                 <ul class="nav-links">
-                    <li><a href="#hero" class="nav-link active-link">Home</a></li>
-                    <li><a href="#projects" class="nav-link">Projects</a></li>
-                    <li><a href="#about" class="nav-link">About</a></li>
-                    <li><a href="#contact" class="nav-link">Contact</a></li>
+                    <li>
+                        <a href="#hero" class="nav-link active-link">Home</a>
+                    </li>
+                    <li>
+                        <a href="#terminal-section" class="nav-link">Terminal</a>
+                    </li>
+                    <li>
+                        <a href="#about" class="nav-link">About</a>
+                    </li>
+                    <li>
+                        <a href="#contact" class="nav-link">Contact</a>
+                    </li>
                 </ul>
                 <div class="theme-switch" id="theme-toggle">
                     <ion-icon name="moon-outline" id="theme-icon"></ion-icon>
@@ -205,80 +560,57 @@
 
     <main>
         <section id="hero">
-            <div class="hero-lottie-bg">
-                <dotlottie-player src="https://lottie.host/5ea21608-5e63-4b4c-aba8-cadd105a6250/21GA8DNFnB.lottie" background="transparent" speed="1" loop autoplay></dotlottie-player>
-            </div>
+            <video class="hero-video-bg" autoplay muted loop playsinline preload="auto" poster="https://placehold.co/960x540/4a4a4a/ffffff?text=Loading+Video">
+                <source src="https://motionbgs.com/media/3639/super-mario.960x540.mp4" type="video/mp4">
+            </video>
             <div class="container hero-content">
                 <h1>Hi, I'm Hsu Myat. <br>A Creative <span>Developer</span>.</h1>
                 <p>I build modern, responsive, and user-friendly web applications. Explore my work and get to know more about my skills and passion for development.</p>
-                <a href="#projects" class="hero-button">View My Work</a>
+                <a href="#terminal-section" class="hero-button">Start Terminal</a>
             </div>
         </section>
 
-        <section id="projects">
-            <div class="container">
-                <h2 class="section-title">My Projects</h2>
-                <div class="projects-grid" id="projects-container">
-                     <div class="project-card">
-                           <div class="project-image" style="background-image: url('https://github.com/Htet-2aung/PLATE.AI/blob/main/assets/Captura%20de%20pantalla%202025-06-09%20181711.png?raw=true');"></div>
-                           <div class="project-content">
-                                 <h3 class="project-title">PLATE.AI</h3>
-                                 <p class="project-description">A comprehensive, full-stack web application for real-time, high-accuracy detection and recognition of Vietnamese license plates.</p>
-                                 <div class="project-tags">
-                                     <span>React</span>
-                                     <span>Python</span>
-                                     <span>FastAPI</span>
-                                     <span>YOLOv8</span>
-                                 </div>
-                                 <a href="https://github.com/Htet-2aung/PLATE.AI" target="_blank" class="project-link">View on GitHub <ion-icon name="arrow-forward-outline"></ion-icon></a>
-                           </div>
-                     </div>
-                     <div class="project-card">
-                           <div class="project-image" style="background-image: url('https://images.unsplash.com/photo-1555949963-ff9fe0c870eb?q=80&w=2070&auto=format&fit=crop');"></div>
-                           <div class="project-content">
-                                 <h3 class="project-title">Airline Booking Site</h3>
-                                 <p class="project-description">A classic airline ticket booking website built with a foundational web stack, focusing on server-side logic and database interaction.</p>
-                                 <div class="project-tags">
-                                     <span>PHP</span>
-                                     <span>JavaScript</span>
-                                     <span>HTML/CSS</span>
-                                     <span>MySQL</span>
-                                 </div>
-                                 <a href="https://github.com/Htet-2aung/Airline-Ticket-Booking-Website" target="_blank" class="project-link">View on GitHub <ion-icon name="arrow-forward-outline"></ion-icon></a>
-                           </div>
-                     </div>
+        <!-- New Terminal Section -->
+        <section id="terminal-section">
+            <div class="container terminal-container">
+                <div class="terminal-header">
+                    <div class="terminal-title">user@hsumyat:~</div>
+                    <div class="terminal-dots">
+                        <span style="background-color: #ef4444;"></span>
+                        <span style="background-color: #f59e0b;"></span>
+                        <span style="background-color: #22c55e;"></span>
+                    </div>
+                </div>
+
+                <div id="terminal-output" class="terminal-output">
+                    <p>Welcome to my portfolio! Type `<span style="color: var(--terminal-output-text);">help</span>` for a list of commands.</p>
+                    <br>
+                </div>
+
+                <div class="terminal-input-line">
+                    <span class="user">user@hsumyat</span><span class="dir">:~</span><span class="dollar">$</span>
+                    <input id="terminal-input" type="text" class="terminal-input" autofocus spellcheck="false" autocomplete="off">
                 </div>
             </div>
         </section>
-
+        
+        <!-- About Section (Updated) -->
         <section id="about">
             <div class="container">
                 <div class="about-content">
                     <h2 class="section-title" style="text-align: left; margin-bottom: 2rem;">About Me</h2>
                     <p class="about-intro">I am a final-year Computer Science student passionate about the intersection of software development and artificial intelligence. My journey is driven by a curiosity to build intelligent systems that solve real-world problems.</p>
-                    <div class="skills-section">
+                    <div class="tech-stack-section">
                         <h3 class="skills-title">My Technical Skills</h3>
-                        <ul class="skills-list">
-                            <li class="skill-item">
-                                <span class="skill-name">Python & Machine Learning</span>
-                                <div class="skill-bar"><div class="skill-level" data-level="90%"></div></div>
-                            </li>
-                            <li class="skill-item">
-                                <span class="skill-name">Full-Stack Development (React, PHP)</span>
-                                <div class="skill-bar"><div class="skill-level" data-level="85%"></div></div>
-                            </li>
-                            <li class="skill-item">
-                                <span class="skill-name">R & Data Analysis</span>
-                                <div class="skill-bar"><div class="skill-level" data-level="80%"></div></div>
-                            </li>
-                             <li class="skill-item">
-                                <span class="skill-name">DevOps & Linux Environments</span>
-                                <div class="skill-bar"><div class="skill-level" data-level="75%"></div></div>
-                            </li>
-                        </ul>
+                        <div class="tech-stack-grid">
+                            <div class="tech-item"><ion-icon name="logo-python"></ion-icon><span>Python & ML</span></div>
+                            <div class="tech-item"><ion-icon name="code-slash-outline"></ion-icon><span>Full-Stack Dev</span></div>
+                            <div class="tech-item"><ion-icon name="analytics-outline"></ion-icon><span>R & Data Analysis</span></div>
+                            <div class="tech-item"><ion-icon name="server-outline"></ion-icon><span>DevOps & Linux</span></div>
+                        </div>
                     </div>
                 </div>
-                 <div class="about-image-wrapper">
+                <div class="about-image-wrapper">
                     <img src="https://avatars.githubusercontent.com/u/146718691?v=4" alt="Hsu Myat Wai Maung" class="about-image">
                 </div>
             </div>
@@ -287,17 +619,18 @@
     
     <footer class="footer" id="contact">
         <div class="container">
-             <ul class="social-icons">
+            <h3 class="contact-cta">Let's build something great together.</h3>
+            <ul class="social-icons">
                 <li><a href="https://github.com/Htet-2aung" target="_blank" rel="noopener noreferrer"><ion-icon name="logo-github"></ion-icon></a></li>
                 <li><a href="#" target="_blank" rel="noopener noreferrer"><ion-icon name="logo-twitter"></ion-icon></a></li>
                 <li><a href="mailto:kienbrowns1129@gmail.com"><ion-icon name="mail-outline"></ion-icon></a></li>
             </ul>
-             <ul class="footer-menu">
+            <ul class="footer-menu">
                 <li><a href="#hero">Home</a></li>
-                <li><a href="#projects">Projects</a></li>
+                <li><a href="#terminal-section">Terminal</a></li>
                 <li><a href="#about">About</a></li>
             </ul>
-            <p>&copy; 2025 Hsu Myat Wai Maung | All Rights Reserved</p>
+            <p class="footer-text">&copy; 2025 Hsu Myat Wai Maung | All Rights Reserved</p>
             <div id="time-container">
                 Current Time in Ho Chi Minh City: <span id="time"></span>
             </div>
@@ -324,37 +657,34 @@
             setTheme(currentTheme === 'light' ? 'dark' : 'light');
         });
 
-        // --- SKILL BAR ANIMATION ---
-        const skillsSection = document.querySelector('.skills-section');
-        const skillLevels = document.querySelectorAll('.skill-level');
+        // --- SECTION FADE-IN ---
+        const sections = document.querySelectorAll('section');
 
-        const observer = new IntersectionObserver((entries) => {
+        const observer = new IntersectionObserver((entries, observer) => {
             entries.forEach(entry => {
                 if (entry.isIntersecting) {
-                    skillLevels.forEach(skill => {
-                        skill.style.width = skill.getAttribute('data-level');
-                    });
-                    observer.unobserve(skillsSection);
+                    entry.target.classList.add('is-visible');
+                    observer.unobserve(entry.target);
                 }
             });
-        }, { threshold: 0.5 });
-        
-        if (skillsSection) {
-            observer.observe(skillsSection);
-        }
+        }, { threshold: 0.2 });
+
+        sections.forEach(section => {
+            observer.observe(section);
+        });
 
         // --- ACTIVE LINK SCROLLING ---
-        const sections = document.querySelectorAll('section[id]');
         const navLinks = document.querySelectorAll('.nav-links a');
 
         function scrollActive() {
             const scrollY = window.pageYOffset;
             sections.forEach(current => {
-                const sectionTop = current.offsetTop - 50;
+                const sectionHeight = current.offsetHeight;
+                const sectionTop = current.offsetTop - 58;
                 const sectionId = current.getAttribute('id');
                 const navLink = document.querySelector('.nav-links a[href*=' + sectionId + ']');
                 
-                if (scrollY > sectionTop && scrollY <= sectionTop + current.offsetHeight) {
+                if (scrollY > sectionTop && scrollY <= sectionTop + sectionHeight) {
                     navLinks.forEach(link => link.classList.remove('active-link'));
                     if (navLink) navLink.classList.add('active-link');
                 }
@@ -370,7 +700,115 @@
         }
         updateTime();
         setInterval(updateTime, 1000);
+        
+        // --- TERMINAL LOGIC ---
+        const terminalOutput = document.getElementById('terminal-output');
+        const terminalInput = document.getElementById('terminal-input');
+        
+        // Command data from the original projects section
+        const projectsData = [
+            {
+                title: 'PLATE.AI',
+                description: 'A comprehensive, full-stack web application for real-time, high-accuracy detection and recognition of Vietnamese license plates.',
+                tags: ['React', 'Python', 'FastAPI', 'YOLOv8'],
+                link: 'https://github.com/Htet-2aung/PLATE.AI'
+            },
+            {
+                title: 'Airline Booking Site',
+                description: 'A classic airline ticket booking website built with a foundational web stack, focusing on server-side logic and database interaction.',
+                tags: ['PHP', 'JavaScript', 'HTML/CSS', 'MySQL'],
+                link: 'https://github.com/Htet-2aung/Airline-Ticket-Booking-Website'
+            }
+        ];
 
+        // Object containing the commands and their corresponding output functions
+        const commands = {
+            help: () => {
+                return `
+                    <p class="mb-2">Available commands:</p>
+                    <ul style="margin-left: 1rem;">
+                        <li><span style="color: var(--terminal-output-text);">about</span> - Get to know me.</li>
+                        <li><span style="color: var(--terminal-output-text);">projects</span> - View a list of my projects.</li>
+                        <li><span style="color: var(--terminal-output-text);">contact</span> - Find my contact information.</li>
+                        <li><span style="color: var(--terminal-output-text);">clear</span> - Clear the terminal screen.</li>
+                        <li><span style="color: var(--terminal-output-text);">whoami</span> - Display the current user.</li>
+                        <li><span style="color: var(--terminal-output-text);">help</span> - List all available commands.</li>
+                    </ul>
+                `;
+            },
+            about: () => {
+                return `
+                    <p>I am a final-year Computer Science student passionate about the intersection of software development and artificial intelligence.</p>
+                    <p>For more details and to see my technical skills, please scroll down to the "About Me" section.</p>
+                `;
+            },
+            projects: () => {
+                let output = `<p class="mb-2">Here is a list of my projects:</p>`;
+                projectsData.forEach(proj => {
+                    output += `
+                        <div style="margin-bottom: 1rem;">
+                            <p style="color: var(--terminal-output-text);">> ${proj.title}</p>
+                            <p style="color: var(--secondary-text-color); margin-left: 1rem;">- ${proj.description}</p>
+                            <p style="color: var(--terminal-prompt-dir); margin-left: 1rem;">- Tech Stack: ${proj.tags.join(', ')}</p>
+                            <a href="${proj.link}" target="_blank" style="color: var(--terminal-link); margin-left: 1rem; text-decoration: underline;">View on GitHub</a>
+                        </div>
+                    `;
+                });
+                return output;
+            },
+            contact: () => {
+                return `
+                    <p>You can reach me at:</p>
+                    <p style="color: var(--terminal-output-text);">Email: kienbrowns1129@gmail.com</p>
+                    <p style="color: var(--terminal-link);">GitHub: <a href="https://github.com/Htet-2aung" target="_blank" style="color: var(--terminal-link); text-decoration: underline;">github.com/Htet-2aung</a></p>
+                `;
+            },
+            whoami: () => {
+                return `<p style="color: var(--terminal-output-text);">user@hsumyat</p>`;
+            },
+            clear: () => {
+                terminalOutput.innerHTML = '';
+            },
+        };
+
+        // Function to process a command and display the output
+        function executeCommand(command) {
+            const inputLine = document.createElement('div');
+            inputLine.className = 'prompt-line';
+            inputLine.innerHTML = `
+                <span class="user">user@hsumyat</span><span class="dir">:~</span><span class="dollar">$</span>
+                <span class="input-text" style="margin-left: 0.5rem;">${command}</span>
+            `;
+            terminalOutput.appendChild(inputLine);
+
+            const outputDiv = document.createElement('div');
+            if (commands[command]) {
+                const result = commands[command]();
+                if (command !== 'clear') {
+                    outputDiv.innerHTML = `<div style="margin-top: 0.5rem; margin-bottom: 1.5rem;">${result}</div>`;
+                    terminalOutput.appendChild(outputDiv);
+                }
+            } else {
+                outputDiv.innerHTML = `<div style="margin-top: 0.5rem; margin-bottom: 1.5rem;">Command not found: <span style="color: var(--terminal-error);">${command}</span>. Type '<span style="color: var(--terminal-output-text);">help</span>' for a list of commands.</div>`;
+                terminalOutput.appendChild(outputDiv);
+            }
+
+            terminalOutput.scrollTop = terminalOutput.scrollHeight;
+        }
+
+        // Event listener for the input field to handle 'Enter' key press
+        terminalInput.addEventListener('keydown', (e) => {
+            if (e.key === 'Enter') {
+                const command = terminalInput.value.trim().toLowerCase();
+                if (command) {
+                    executeCommand(command);
+                    terminalInput.value = '';
+                }
+            }
+        });
+
+        // Ensure the input is focused on page load
+        terminalInput.focus();
     </script>
 </body>
 </html>
